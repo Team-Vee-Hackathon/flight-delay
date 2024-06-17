@@ -11,7 +11,7 @@ export default function Home() {
       <IntroPage />
       <Search />
       <Services />
-      <Packages /> 
+      {/* <Packages />  */}
       <Lastpage />
       
       
