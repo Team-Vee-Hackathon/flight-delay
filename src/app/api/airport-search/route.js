@@ -1,0 +1,26 @@
+import { API_URL, API_KEY } from "@/config/constants";
+import axios from "axios";
+
+//Autocomplete search for airports
+export async function GET(request) {
+	try {
+		const query = request.nextUrl.searchParams.get("search");
+		const res = await axios.get(`${API_URL}/flights/auto-complete`, {
+			headers: {
+				'x-rapidapi-host': 'sky-scanner3.p.rapidapi.com',
+				"x-rapidapi-key": API_KEY,
+				"Content-Type": "application/json"
+			},
+			params: {
+				query,
+			}
+		})
+		return Response.json(res.data);
+	} catch (error) {
+		console.error(error.response.data.message);
+		return Response.json({
+			apiErrorMsg: error.response.data.message,
+			error: "An error occurred while searching for airports."
+		});
+	}
+}
