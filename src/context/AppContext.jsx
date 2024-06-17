@@ -1,7 +1,7 @@
 "use client";
 import { createContext,useState,useEffect } from "react";
 
-export const AppContext = createContext();
+export const AppContext = createContext(null);
 
 const AppContextProvider = ({ children }) => {
   //States
@@ -30,14 +30,16 @@ const AppContextProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{
-        account,
-		web3,
-		fn:{
-			connectWallet,
-			disconnectWallet
-		},
-      }}
+      value={
+        {
+          account,
+          setAccount,
+          connectWallet,
+          disconnectWallet,
+          web3,
+          setWeb3
+        }
+      }
     >
       {children}
     </AppContext.Provider>
