@@ -9,6 +9,8 @@ import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
 import { Box, Button, Stack } from "@mui/material";
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
+import LogoutIcon from '@mui/icons-material/Logout';
+import Link from "next/link";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -21,17 +23,17 @@ const Transition = React.forwardRef(function Transition(
 
 const Nav = () => {
   const { connectors, connect } = useConnect();
+  const { address } = useAccount();
+  const { disconnect } = useDisconnect();
   const [openWalletOptions, setOpenWalletOptions] = useState(false);
-
-  // const {account,fn} = useContext(AppContext);
-
+  const context = useContext(AppContext);
 
   //move to dashboard
   const route = () => {
-    toast.success('Wallet connected Successfully!')
-    setTimeout(()=>{
+    // toast.success('Wallet connected Successfully!')
+    // setTimeout(()=>{
       window.location.href="/dashboard"
-    },2000)
+    // },2000)
   }
   return (
     <>
@@ -45,26 +47,44 @@ const Nav = () => {
           <p>Contacts</p>
           {/* align this button vertically equal with others */}
           {
-            // account ? (
-            //   <p
-            //   // onClick={()=>{
-            //   //   confirm("Are you sure you want to disconnect your wallet?") && fn.disconnectWallet()
-            //   // }}
-            //   className="bg-[#229104] hover:bg-[#22b012] text-[#fff] px-4 py-2 rounded-[30px]"
-            //   >{accountString(account)}</p>
-            // ):(
-            <button
-              onClick={() => {
-                setOpenWalletOptions(!openWalletOptions)
-              }}
-              className="bg-[#FFC700] hover:bg-[#ebc745] text-[#000000] px-4 py-2 rounded-[30px]">
-              Connect Wallet
-            </button>
+            address ? (
+              <Stack flexDirection="row" sx={{
+                gap: "10px"
+              
+              }}>
+                <Link
+                  href="/dashboard"
+                  className="bg-[#229104] hover:bg-[#22b012] text-[#fff] px-4 py-2 rounded-[30px]"
+                >My Dashboard</Link>
+                <button
+                  onClick={() => {
+                    confirm("Are you sure you want to disconnect your wallet?") && disconnect()
+                  }}
+                  className="bg-[#ff0000] hover:bg-[#eb4545] text-[#ffffff] px-4 py-2 rounded-full">
+                  <LogoutIcon className="text-white" />
+                </button>
+              </Stack>
+            ) : (
+              <button
+                onClick={() => {
+                  setOpenWalletOptions(!openWalletOptions)
+                }}
+                className="bg-[#FFC700] hover:bg-[#ebc745] text-[#000000] px-4 py-2 rounded-[30px]">
+                Connect Wallet
+              </button>
 
-            // )
+            )
+
           }
+           <button
+                onClick={async () => {
+                 await context?.zk.generate()
+                }}
+                className="bg-[#FFC700] hover:bg-[#ebc745] text-[#000000] px-4 py-2 rounded-[30px]">
+                Test ZK
+              </button>
         </div>
-        <Toaster />
+        {/* <Toaster /> */}
       </div>
 
       <Dialog
@@ -83,7 +103,10 @@ const Nav = () => {
               return (
                 <Button
                   key={connector.id}
-                  onClick={() => connect({ connector })}
+                  onClick={() => {
+                    connect({ connector })
+                    setOpenWalletOptions(!openWalletOptions)
+                  }}
                   className="bg-[#FFC700] hover:bg-[#ebc745] text-[#000000] px-4 py-2 mx-2 rounded-[30px]"
                 >
                   {connector.id}
@@ -93,7 +116,7 @@ const Nav = () => {
           </Stack>
         </Box>
       </Dialog>
-      
+
     </>
   );
 };

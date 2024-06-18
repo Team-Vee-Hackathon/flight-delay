@@ -1,40 +1,42 @@
 "use client";
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, Dispatch } from "react";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
+import TransgateConnect from "@zkpass/transgate-js-sdk"
 import Web3 from "web3"
-export const AppContext = createContext(null);
+export const AppContext = createContext<AppContextType|null>(null);
 
 const testSchemaId = "d78e13727abb4359a254c7d729f0845e";
 const zkPassAppId = "e35d4b59-adc1-4f9d-bf69-d1502346018b";
 
-const AppContextProvider = ({ children }) => {
+interface AppContextType {
+  zk: {
+    generate: ()=>Promise<void>,
+    verifyProof: (proof: any)=>Promise<void>,
+    zkPassRes: any
+  },
+  wallet: {
+    web3: any,
+    setWeb3: Dispatch<any>
+  }
+}
+
+const AppContextProvider = ({ children }:{
+  children: React.ReactNode
+}) => {
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
   //States
-  const [account, setAccount] = useState(null);
-  const [web3, setWeb3] = useState(null)
-  const [zkPassRes, setzkPassRes] = useState(null)
+  const [web3, setWeb3] = useState<any>(null)
+  const [zkPassRes, setzkPassRes] = useState<any>(null)
 
   ///Functions ///////////////////
-  //Connect Wallet
-  const connectWallet = async () => {
-
-  }
-
-  //Disconnect Wallet
-  const disconnectWallet = () => {
-    setAccount(null);
-    // window.ethereum = null;
-  }
-
   //Generate zkPass proof
-  const generate = async (schemaId, appid) => {
+  const generate = async () => {
     try {
       // The appid of the project created in dev center
-      const appid = zkPassAppId
 
       // Create the connector instance
-      const connector = new TransgateConnect(appid)
+      const connector = new TransgateConnect(zkPassAppId)
 
       // Check if the TransGate extension is installed
       // If it returns false, please prompt to install it from chrome web store
@@ -42,11 +44,10 @@ const AppContextProvider = ({ children }) => {
 
       if (isAvailable) {
         // The schema id of the project
-        const schemaId = testSchemaId
 
         // Launch the process of verification
         // This method can be invoked in a loop when dealing with multiple schemas
-        const res = await connector.launch(schemaId)
+        const res = await connector.launch(testSchemaId)
         console.log(res)
         setzkPassRes(res)
 
@@ -65,19 +66,19 @@ const AppContextProvider = ({ children }) => {
   }
 
   //verify zkPass proof
-  const verifyProof = async (proof) => {
+  const verifyProof = async (proof:any ) => {
     try {
       // Create the connector instance
       const web3 = new Web3()
-      const { taskId, uHash, publicFieldsHash, recipient } = zkPassRes
+      // const { taskId, uHash, publicFieldsHash, recipient } = zkPassRes
 
-    } catch (error) {
-      alert('Error verifying proof', error)
+    } catch (error: any) {
+      alert(`Error verifying proof ${error}`)
     }
   }
 
   //Purchase flight insurance
-  const purchaseInsurance = async (insuranceData) => {
+  const purchaseInsurance = async (insuranceData:any) => {
     //Transfer money using smart contract
 
     //Save data into data using api
@@ -95,16 +96,17 @@ const AppContextProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
+    //error here
       value={
         {
+          zk: {
+            generate,
+            verifyProof,
+            zkPassRes
+          },
           wallet: {
-            account,
-            setAccount,
-            connectWallet,
-            disconnectWallet,
             web3,
             setWeb3,
-
           }
         }
       }
