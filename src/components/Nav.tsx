@@ -2,6 +2,7 @@
 import { AppContext } from "@/context/AppContext";
 import { accountString } from "@/utils/functions";
 import DialogTitle from '@mui/material/DialogTitle';
+import TransgateConnect from "@zkpass/transgate-js-sdk";
 import toast, { Toaster } from "react-hot-toast";
 import Dialog from '@mui/material/Dialog';
 import React, { useContext, useState } from "react";
@@ -10,6 +11,8 @@ import { Box, Button, Stack } from "@mui/material";
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { testSchemaId, zkPassAppId } from "@/config/constants";
+
 import Link from "next/link";
 
 const Transition = React.forwardRef(function Transition(
@@ -32,9 +35,33 @@ const Nav = () => {
   const route = () => {
     // toast.success('Wallet connected Successfully!')
     // setTimeout(()=>{
-      window.location.href="/dashboard"
+    window.location.href = "/dashboard"
     // },2000)
   }
+
+  // Generate zkPass proof
+  const generate = async () => {
+    try {
+      // The appid of the project created in dev center
+      alert("Called zkPass fun");
+      // Create the connector instance
+      const connector = new TransgateConnect(zkPassAppId);
+
+      // Check if the TransGate extension is installed
+      const isAvailable = await connector.isTransgateAvailable();
+
+      if (isAvailable) {
+        // Launch the process of verification
+        const res = await connector.launch(testSchemaId);
+        console.log(res);
+        // setzkPassRes(res);
+      } else {
+        console.log("Please install TransGate");
+      }
+    } catch (error) {
+      console.log("transgate error", error);
+    }
+  };
   return (
     <>
       <div className="flex items-center justify-center m-[2rem] gap-[30rem]">
@@ -50,7 +77,7 @@ const Nav = () => {
             address ? (
               <Stack flexDirection="row" sx={{
                 gap: "10px"
-              
+
               }}>
                 <Link
                   href="/dashboard"
@@ -76,13 +103,20 @@ const Nav = () => {
             )
 
           }
-           <button
-                onClick={async () => {
-                 await context?.zk.generate()
-                }}
-                className="bg-[#FFC700] hover:bg-[#ebc745] text-[#000000] px-4 py-2 rounded-[30px]">
-                Test ZK
-              </button>
+          <button
+            onClick={async () => {
+              await generate();
+            }}
+            className="bg-[#FFC700] hover:bg-[#ebc745] text-[#000000] px-4 py-2 rounded-[30px]">
+            Test ZK
+          </button>
+          <button
+            onClick={() => {
+              fetch("/api/hello").then((res) => res.json()).then(console.log)
+            }}
+          >
+            Data click
+          </button>
         </div>
         {/* <Toaster /> */}
       </div>

@@ -1,7 +1,7 @@
 export function GET(request){
 	return Response.json({
-		id:1,
-		active: false,
-		amount: 1,
+		id:"3",
+		active: true,
+		amount: 100,
 	})
 }

@@ -7,9 +7,6 @@ import Search from "@/components/Search";
 import { useEffect } from "react";
 
 export default function Home() {
-  useEffect(() => {
-    fetch("/api/hello").then((res) => res.json()).then(console.log)
-  },[])
   return (
     <main className="flex h-[150vh]  flex-col bg-black ">
       {/* <Nav /> */}
