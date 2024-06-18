@@ -22,3 +22,10 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.modal{
+  background: linear-gradient(rgba(255, 255, 255, 0),rgba(255, 255, 255, 0.9)), url('/image7.png') ;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
