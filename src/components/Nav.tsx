@@ -2,12 +2,22 @@
 import { AppContext } from "@/context/AppContext";
 import { accountString } from "@/utils/functions";
 import React, { useContext } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 
 const Nav = () => {
   // const {account,fn} = useContext(AppContext);
+
+
+  //move to dashboard
+  const route = () => {
+    toast.success('Wallet connected Successfully!')
+    setTimeout(()=>{
+      window.location.href="/dashboard"
+    },2000)
+  }
   return (
-    <div className="flex items-center justify-center m-[3rem] gap-[30rem]">
+    <div className="flex items-center justify-center m-[2rem] gap-[30rem]">
       <div>
         <img src="/aya.png" alt="aya logo" />
       </div>
@@ -26,7 +36,7 @@ const Nav = () => {
           //   >{accountString(account)}</p>
           // ):(
             <button 
-            onClick={()=>{}}
+            onClick={()=> route()}
             className="bg-[#FFC700] hover:bg-[#ebc745] text-[#000000] px-4 py-2 rounded-[30px]">
               Connect Wallet
             </button> 
@@ -34,6 +44,7 @@ const Nav = () => {
           // )
         }
       </div>
+      <Toaster />
     </div>
   );
 };

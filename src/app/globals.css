@@ -3,8 +3,22 @@
 @tailwind utilities;
 
 .main-body{
-  background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,.8)) url('../../public/bgImage.jpg') center center;
+  background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,.8)), url('/bgImage.jpg') ;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.status{
+  background: linear-gradient(rgba(255, 255, 255, 0),rgba(255, 255, 255, 0.9)), url('/image7.png') ;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.login-photo{
+  background-image:url('/plane.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
