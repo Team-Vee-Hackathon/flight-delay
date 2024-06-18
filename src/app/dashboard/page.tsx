@@ -1,4 +1,5 @@
 'use client'
+import { Dashboard, LogoutOutlined } from '@mui/icons-material'
 import { Button } from '@nextui-org/react'
 import Image from 'next/image'
 import React from 'react'
@@ -18,11 +19,11 @@ const page = () => {
                     <Image height={15}  width={70} className="h-[20px]" src='/zkpass.png' alt="" />
                 </div>
                 <div className='mt-[2rem]' >
-                    <Button onClick={()=>returnHome()} className='text-white text-[12px] bg-[#FFFFFF1A] w-[15vw] rounded-[20px] p-2'>Home</Button>
+                    <Button onClick={()=>returnHome()} className='text-white text-[12px] bg-[#FFFFFF1A] w-[15vw] rounded-[20px] p-2'> <Dashboard className='text-[12px]'/> Home</Button>
                 </div>
             </div>
             <div>
-                <Button className='text-white text-[12px]'>Disconnect Wallet</Button>
+                <Button className='text-white text-[12px]'><LogoutOutlined  className='text-[15px]'/>  Disconnect Wallet</Button>
             </div>
         </div>
         <div className='p-[3rem]  flex flex-col gap-4'>
