@@ -2,6 +2,10 @@ export const API_KEY = "7a6e0b2cb2mshe9c0dd122b2f1f5p1ce9bcjsnce272dfb8a23";
 
 export const API_URL = "https://sky-scanner3.p.rapidapi.com";
 
+export const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9vdHlueGR1aGFscnlramhreW5oIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcxODY5MzQzMSwiZXhwIjoyMDM0MjY5NDMxfQ.B69IxBspFmEHSV-TVfwaq_v9p5qw7okTyTgDkDQUxrk";
+
+export const SUPABASE_URL = "https://ootynxduhalrykjhkynh.supabase.co";
+
 export const CONFIGS = [
 	{
 		"country": "Andorra",

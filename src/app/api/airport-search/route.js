@@ -15,7 +15,15 @@ export async function GET(request) {
 				query,
 			}
 		})
-		return Response.json(res.data);
+		const content = res.data.data.map((a) => {
+			return {
+				...a.presentation,
+			}
+		})
+		return Response.json({
+			count: content.length,
+			content
+		});
 	} catch (error) {
 		console.error(error.response.data.message);
 		return Response.json({

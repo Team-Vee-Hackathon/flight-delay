@@ -1,13 +1,13 @@
-export const accountString = (account:string) => {
+export const accountString = (account: string) => {
   return account.slice(0, 6) + "..." + account.slice(-4);
 };
 
-// Define multipliers for different cabin classes
-const multipliers:any = {
-  Economy: 1.0, //6h
-  Business: 2.5, //12h
-  First: 4.0 //24h
-};
+// // Define multipliers for different cabin classes
+// const multipliers: any = {
+//   "economy": 0.1, //6h
+//   "business": 0.25, //12h
+//   "first": 0.4 //24h
+// };
 
 /**
 * Calculate the insurance payout based on cabin class, ticket price, and number of travelers.
@@ -17,18 +17,21 @@ const multipliers:any = {
 * @param {number} numTravelers - The number of people traveling.
 * @returns {number} - The calculated insurance payout.
 */
-export function calculateInsurancePayout(ticketPrice:number, cabinClass:string, numTravelers:number) {
-  // Validate the inputs
-  if (!multipliers.hasOwnProperty(cabinClass)) {
+export function calculateInsurancePayout(ticketPrice: number, cabinClass: string, numTravelers: number) {
+  if (ticketPrice <= 0 || numTravelers <= 0) {
+    throw new Error('Ticket price and number of travelers must be greater than zero.');
+  }
+  switch (cabinClass) {
+    case "economy":
+      return (ticketPrice * 0.1 * numTravelers).toFixed(2);
+    case "business":
+      return (ticketPrice * 0.25 * numTravelers).toFixed(2);
+    case "first":
+      return (ticketPrice * 0.4 * numTravelers).toFixed(2);
+    default:
       throw new Error('Invalid cabin class. Choose from Economy, Business, or First.');
   }
-  if (ticketPrice <= 0 || numTravelers <= 0) {
-      throw new Error('Ticket price and number of travelers must be greater than zero.');
-  }
 
-  // Calculate the payout
-  const payout:number = ticketPrice * multipliers[cabinClass] * numTravelers;
-  return payout;
 }
 
 // Example usage:
