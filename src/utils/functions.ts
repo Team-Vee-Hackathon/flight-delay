@@ -1,12 +1,12 @@
-export const accountString = (account) => {
+export const accountString = (account:string) => {
   return account.slice(0, 6) + "..." + account.slice(-4);
 };
 
 // Define multipliers for different cabin classes
-const multipliers = {
-  Economy: 1.0,
-  Business: 1.5,
-  First: 2.0
+const multipliers:any = {
+  Economy: 1.0, //6h
+  Business: 2.5, //12h
+  First: 4.0 //24h
 };
 
 /**
@@ -17,7 +17,7 @@ const multipliers = {
 * @param {number} numTravelers - The number of people traveling.
 * @returns {number} - The calculated insurance payout.
 */
-export function calculateInsurancePayout(ticketPrice, cabinClass, numTravelers) {
+export function calculateInsurancePayout(ticketPrice:number, cabinClass:string, numTravelers:number) {
   // Validate the inputs
   if (!multipliers.hasOwnProperty(cabinClass)) {
       throw new Error('Invalid cabin class. Choose from Economy, Business, or First.');
@@ -27,7 +27,7 @@ export function calculateInsurancePayout(ticketPrice, cabinClass, numTravelers) 
   }
 
   // Calculate the payout
-  const payout = ticketPrice * multipliers[cabinClass] * numTravelers;
+  const payout:number = ticketPrice * multipliers[cabinClass] * numTravelers;
   return payout;
 }
 

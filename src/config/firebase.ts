@@ -1,10 +1,8 @@
-
-var admin = require("firebase-admin");
-
-var serviceAccount = require("./fb-config.json");
+import * as admin from 'firebase-admin';
+import serviceAccount from '../../fb-config.json'; // Assuming fb-config.json is in the same directory
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+  credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+}, 'admin');
 
-export default admin;
+export const db = admin.firestore();

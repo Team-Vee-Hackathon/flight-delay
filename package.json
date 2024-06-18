@@ -19,6 +19,7 @@
     "@starknet-react/chains": "^0.1.0",
     "@starknet-react/core": "^2.1.0",
     "axios": "^1.7.2",
+    "firebase-admin": "^12.1.1",
     "framer-motion": "^11.2.10",
     "get-starknet-core": "^3.2.0",
     "material-icons-react": "^1.0.4",
