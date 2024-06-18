@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useState, useEffect } from "react";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
-
+import Web3 from "web3"
 export const AppContext = createContext(null);
 
 const testSchemaId = "d78e13727abb4359a254c7d729f0845e";
@@ -13,6 +13,7 @@ const AppContextProvider = ({ children }) => {
   //States
   const [account, setAccount] = useState(null);
   const [web3, setWeb3] = useState(null)
+  const [zkPassRes, setzkPassRes] = useState(null)
 
   ///Functions ///////////////////
   //Connect Wallet
@@ -30,7 +31,7 @@ const AppContextProvider = ({ children }) => {
   const generate = async (schemaId, appid) => {
     try {
       // The appid of the project created in dev center
-      const appid = "8fb9d43c-2f24-424e-a98d-7ba34a5532f5"
+      const appid = zkPassAppId
 
       // Create the connector instance
       const connector = new TransgateConnect(appid)
@@ -41,22 +42,37 @@ const AppContextProvider = ({ children }) => {
 
       if (isAvailable) {
         // The schema id of the project
-        const schemaId = "516a720e-29a4-4307-ae7b-5aec286e446e"
+        const schemaId = testSchemaId
 
         // Launch the process of verification
         // This method can be invoked in a loop when dealing with multiple schemas
         const res = await connector.launch(schemaId)
+        console.log(res)
+        setzkPassRes(res)
 
         //If you want to send the result to the blockchain, please add the wallet address as the second parameter.
         //const res = await connector.launch(schemaId, address)
 
-        // verifiy the res onchain/offchain based on the requirement     
+        // verifiy the res onchain/offchain based on the requirement 
+
 
       } else {
         console.log('Please install TransGate')
       }
     } catch (error) {
       console.log('transgate error', error)
+    }
+  }
+
+  //verify zkPass proof
+  const verifyProof = async (proof) => {
+    try {
+      // Create the connector instance
+      const web3 = new Web3()
+      const { taskId, uHash, publicFieldsHash, recipient } = zkPassRes
+
+    } catch (error) {
+      alert('Error verifying proof', error)
     }
   }
 
