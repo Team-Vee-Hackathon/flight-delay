@@ -2,6 +2,7 @@
 import { AppContext } from "@/context/AppContext";
 import { accountString } from "@/utils/functions";
 import DialogTitle from '@mui/material/DialogTitle';
+import toast, { Toaster } from "react-hot-toast";
 import Dialog from '@mui/material/Dialog';
 import React, { useContext, useState } from "react";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
@@ -23,9 +24,18 @@ const Nav = () => {
   const [openWalletOptions, setOpenWalletOptions] = useState(false);
 
   // const {account,fn} = useContext(AppContext);
+
+
+  //move to dashboard
+  const route = () => {
+    toast.success('Wallet connected Successfully!')
+    setTimeout(()=>{
+      window.location.href="/dashboard"
+    },2000)
+  }
   return (
     <>
-      <div className="flex items-center justify-center m-[3rem] gap-[30rem]">
+      <div className="flex items-center justify-center m-[2rem] gap-[30rem]">
         <div>
           <img src="/aya.png" alt="aya logo" />
         </div>
@@ -54,6 +64,7 @@ const Nav = () => {
             // )
           }
         </div>
+        <Toaster />
       </div>
 
       <Dialog
@@ -82,6 +93,7 @@ const Nav = () => {
           </Stack>
         </Box>
       </Dialog>
+      
     </>
   );
 };
