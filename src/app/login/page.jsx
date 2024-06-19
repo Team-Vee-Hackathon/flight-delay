@@ -3,7 +3,7 @@ import { Button } from '@nextui-org/react'
 import Image from 'next/image'
 import React from 'react'
 
-const page = () => {
+const Login = () => {
     const backToDashboard = () =>{
         window.location.href='/dashboard';
     }
@@ -30,4 +30,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Login
