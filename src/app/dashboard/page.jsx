@@ -1,17 +1,21 @@
 "use client";
 import { Dashboard, LogoutOutlined } from "@mui/icons-material";
-import { Dialog, DialogTitle } from "@mui/material";
+import { Dialog } from "@mui/material";
+import Slide from "@mui/material/Slide";
 import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalContent,
-  useDisclosure,
+  Button
 } from "@nextui-org/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 // import ZKPasPic from '../../public/zkpass.png'
+
+const Transition = React.forwardRef(function Transition(
+  props,
+  ref,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const DashboardPage = () => {
   // const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -115,7 +119,7 @@ const DashboardPage = () => {
                     </Modal> */}
 
           <Dialog
-            TransitionProps={TransitionEvent}
+           TransitionComponent={Transition}
             keepMounted
             onClose={() => {
               setIsOpen(!isOpen);

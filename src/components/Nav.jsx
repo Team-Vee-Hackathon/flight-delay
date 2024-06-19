@@ -71,7 +71,7 @@ const Nav = () => {
             )
 
           }
-          <button
+          {/* <button
             onClick={async () => {
               await generate();
             }}
@@ -101,7 +101,7 @@ const Nav = () => {
             }}
           >
             Data click
-          </button>
+          </button> */}
         </div>
         {/* <Toaster /> */}
       </div>
