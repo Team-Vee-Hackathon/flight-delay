@@ -36,7 +36,7 @@ contract FlightDelay {
         emit InsurancePaid(msg.sender, msg.value);
     }
 
-    function withdrawPayout(address payable recipient, uint256 amount) public onlyOwner {
+    function withdrawPayout(address payable recipient, uint256 amount) public {
         require(address(this).balance >= amount, "Insufficient contract balance");
 
         payments.push(Payment({

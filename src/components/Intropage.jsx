@@ -18,7 +18,7 @@ const IntroPage = () => {
           <p className="text-[18px] text-white text-center">Get Flight Insurance for Peace of Mind</p>
         </div>
         <div className="transparent  flex items-center justify-center mb-2 px-6 p-1 rounded-[30px] mt-[10rem] ml-[2rem] ">
-          <p className="text-white text-[12px]">Make a Claim</p>
+          {/* <p className="text-white text-[12px]">Make a Claim</p> */}
         </div>
       </div>
 

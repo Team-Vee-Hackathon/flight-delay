@@ -1,7 +1,8 @@
 "use client";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import Slide from "@mui/material/Slide";
-import { Autocomplete, Box, CircularProgress, Stack, TextField } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import { Autocomplete, Box, CircularProgress, Stack, TextField, IconButton } from '@mui/material';
 import {
   Button,
 } from "@nextui-org/react";
@@ -11,6 +12,7 @@ import { Dialog, DialogTitle } from "@mui/material";
 import dayjs from "dayjs";
 import { AppContext } from "@/context/AppContext";
 import { useRouter } from "next/navigation";
+import { convertGhsToEth } from "@/utils/functions";
 
 const Transition = React.forwardRef(function Transition(
   props,
@@ -21,14 +23,11 @@ const Transition = React.forwardRef(function Transition(
 
 const Search = () => {
   const router = useRouter();
-  const { account, selInsurance, paypayForInsurance, setInsurance } = useContext(AppContext)
+  const { account, selInsurance, payForInsurance, setInsurance } = useContext(AppContext)
 
   const [isOpen, setIsOpen] = useState(false);
 
-
-
   //route to login
-
   const [fromList, setFromList] = useState([]);
   const [toList, setToList] = useState([]);
   const [source, setSource] = useState(null);
@@ -47,22 +46,23 @@ const Search = () => {
 
   //Flight Data
   const [flights, setFlights] = useState([]);
+  const [searchText, setSearchText] = useState("")
+  const [openLoading, setOpenLoading] = useState(false);
+  const [txHash, setTxHash] = useState(null)
 
-  const handleChange = async (e, setData) => {
-    const searchTerm = e.target.value;
-    if (searchTerm.length < 3) return;
+  const handleChange = (searchText, setData) => {
+    if (searchText.length < 3) return;
     setSearching(true);
-    try {
-      const res = await axios.get("/api/airport-search", {
-        params: { search: searchTerm },
-      });
+    axios.get("/api/airport-search", {
+      params: { search: searchText },
+    }).then(res => {
       console.log(res.data.content);
       setData(res.data.content);
-    } catch (error) {
+    }).catch(error => {
       console.error("Error fetching data:", error);
-    } finally {
-      setSearching(false)
-    }
+    }).finally(() => {
+      setSearching(false);
+    });
   };
 
   const fetchFlight = async () => {
@@ -305,20 +305,43 @@ const Search = () => {
                   <div className="w-[1px] h-[12vh] bg-gray-400"></div>
                   <div className="flex flex-col items-center ">
                     <p className="text-[8px]">Insurance Price</p>
-                    <p className="text-[13px] font-bold">¢ {((parseFloat(flight.insurancePrice) * 0.1) + flight.insurancePrice).toFixed(2)}</p>
-                    <p className="text-[8px]">Insurance Payout</p>
-                    <p className="text-[13px] font-bold">¢ {flight.insurancePrice}</p>
+                    <p className="text-[14px] font-bold">¢ {flight.insurancePrice}</p>
                     <button
                       onClick={async () => {
-                        setInsurance(flight)
+                        setInsurance({
+                          fromEntityId: source.suggestionTitle,
+                          toEntityId: dest.suggestionTitle,
+                          departDate,
+                          returnDate,
+                          cabinClass,
+                          adults,
+                          ...flight
+                        })
                         if (!account) {
-                          router.push("/login")
+                          alert("Connect your wallet")
                         } else {
-                          await paypayForInsurance(((parseFloat(flight.insurancePrice) * 0.1) + flight.insurancePrice).toFixed(2))
+                          try {
+                            //TODO: Changed amount divide by 4 (For testing purpose)
+                            const fAmount = await convertGhsToEth(((parseInt(flight.insurancePrice) * 0.1) + parseInt(flight.insurancePrice))/5)
+                            if (confirm(`You are about pay ${fAmount.toFixed(5)} ETH`)) {
+                              setOpenLoading(true)
+                              await payForInsurance(fAmount).then((r) => {
+                                setTxHash(r.transactionHash)
+                              }).catch((e) => {
+                                setOpenLoading(false)
+                                alert(e.message.toString().includes("insufficient funds for gas")
+                                  ? "Insufficient balance to process this transaction. Please top up your wallet and try again."
+                                  : e.message)
+                              });
+                            }
+                          } catch (error) {
+                            setOpenLoading(!openLoading)
+                            console.error(error)
+                          }
                         }
                       }}
                       className="bg-blue-900 text-white p-[4px] w-[15vw] text-center text-[10px] w-[6vw] rounded-[20px] hover:bg-blue-700 ">
-                      Select
+                      Purchase
                     </button>
                   </div>
                 </div>
@@ -355,7 +378,7 @@ const Search = () => {
 
           <Autocomplete
             freeSolo
-            options={isFrom ? fromList : toList}
+            options={isFrom ? fromList || [] : toList || []}
             getOptionLabel={(option) => option.suggestionTitle} // Adjust this to match your data structure
             onChange={(e, newValue) => {
               if (newValue) {
@@ -365,19 +388,30 @@ const Search = () => {
 
             }}
             renderInput={(params) => (
-              <TextField
-                {...params}
-                placeholder="Country, City, or Airport"
-                onChange={(e) => {
-                  handleChange(e, isFrom ? setFromList : setToList);
-                }}
-                className="outline-none border-none text-[12px]"
-              />
+              <Stack flexDirection="row" spacing={2} alignItems="center">
+                <TextField
+                  {...params}
+                  placeholder="Country, City, or Airport"
+                  onChange={(e) => {
+                    setSearchText(e.target.value)
+                  }}
+                  className="outline-none border-none text-[12px]"
+                />
+                <IconButton
+                  sx={{ backgroundColor: "#FFC700" }}
+                  onClick={() => {
+                    handleChange(searchText, isFrom ? setFromList : setToList);
+                  }}
+                >
+                  <SearchIcon sx={{ color: "black" }} />
+                </IconButton>
+              </Stack>
             )}
           />
           <Button
             disabled={searching}
             onClick={() => {
+              setSearchText("")
               setOpenAirportSearch(!openAirportSearch)
               isFrom ? setFromList([]) : setToList([])
             }}
@@ -386,16 +420,58 @@ const Search = () => {
           </Button>
         </Box>
       </Dialog>
+
+      
+      <Dialog
+        TransitionComponent={Transition}
+        keepMounted
+        open={openLoading}
+        sx={{
+          padding: "40px"
+        }}>
+        <Box sx={{
+          padding: "40px"
+        }}>
+          <DialogTitle className="text-center font-bold text-2xl mb-4">{txHash ? "Transaction sent successfully" : "Processing transaction..."}</DialogTitle>
+          <Stack justifyContent={"center"} alignItems={"center"} className="w-full">
+            {
+              txHash ? (
+                <Stack justifyContent={"center"} alignItems={"center"} spacing={2} className="w-full">
+                  <a href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank">
+                    <p className="underline text-blue-700 font-bold text-md">View transaction on EtherScan</p>
+                  </a>
+                  <Button
+                    onClick={() => {
+
+                    }}
+                    className="bg-[#FFC700] hover:bg-[#ebc745] text-[#000000] px-4 py-2 rounded-[30px]" >
+                    Go to Dashboard
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setOpenLoading(false)
+                    }}
+                    color="error" variant="text" >
+                    Close
+                  </Button>
+                </Stack>
+              ) : (
+                <>
+                  <CircularProgress
+                    color="warning"
+                    size={50}
+                  />
+                </>
+              )
+            }
+
+          </Stack>
+        </Box>
+      </Dialog>
     </>
   );
 };
 
-const extractHourAndMinute = (dateTimeString) => {
-  const date = new Date(dateTimeString);
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  return `${hours}h ${minutes}`;
-};
 
 const calculateTimeDifference = (arrival, departure) => {
   const arrivalTime = new Date(arrival);

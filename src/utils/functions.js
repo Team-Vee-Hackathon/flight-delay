@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const accountString = (account) => {
   return account.slice(0, 6) + "..." + account.slice(-4);
 };
@@ -45,3 +47,60 @@ export function calculateInsurancePayout(ticketPrice, cabinClass, numTravelers) 
 // } catch (error) {
 //   console.error(error.message);
 // }
+
+
+const getEthPriceInUSD = async () => {
+  try {
+    const response = await axios.get('https://api.coingecko.com/api/v3/simple/price', {
+      params: {
+        ids: 'ethereum',
+        vs_currencies: 'usd'
+      }
+    });
+    return response.data.ethereum.usd;
+  } catch (error) {
+    console.error('Error fetching ETH price in USD:', error);
+    throw error;
+  }
+};
+
+
+const getGHSRateInUSD = async () => {
+  try {
+    const response = await axios.get('https://api.exchangerate-api.com/v4/latest/GHS');
+    return response.data.rates.USD;
+  } catch (error) {
+    console.error('Error fetching GHS rate in USD:', error);
+    throw error;
+  }
+};
+let gEthPriceInUSD = null
+let gGhsRateInUSD = null
+export const convertGhsToEth = async (ghsAmount) => {
+  try {
+    if (gEthPriceInUSD == null && gGhsRateInUSD == null) {
+      const [ethPriceInUSD, ghsRateInUSD] = await Promise.all([getEthPriceInUSD(), getGHSRateInUSD()]);
+      gEthPriceInUSD = ethPriceInUSD
+      gGhsRateInUSD = ghsRateInUSD
+    }
+    const usdAmount = ghsAmount * gGhsRateInUSD;
+    const ethAmount = usdAmount / gEthPriceInUSD;
+    return ethAmount;
+  } catch (error) {
+    console.error('Error converting GHS to ETH:', error);
+    throw error;
+  }
+};
+
+export const convertUsdToEth = async (usdAmount) => {
+  try {
+    const ethPriceInUSD = await getEthPriceInUSD();
+    const ethAmount = usdAmount / ethPriceInUSD;
+    return ethAmount;
+  } catch (error) {
+    console.error('Error converting USD to ETH:', error);
+    throw error;
+  }
+};
+
+

@@ -1,6 +1,7 @@
 import supabase from '@/config/supabase';
 
 export async function POST(request) {
+	const requestBody = await request.json();
 	const { account,
 		fromEntityId,
 		toEntityId,
@@ -12,29 +13,34 @@ export async function POST(request) {
 		insurancePrice,
 		flightPrice,
 		locale
-	} = await request.json();
-	//Time to claim
+	} = requestBody;
+	// Time to claim
 	const claimTime = cabinClass === 'first' ? 24 : cabinClass === 'business' ? 12 : 6;
-	// //save to firestore
+
+	//
+	const flightId = Math.random().toString(36).substring(7);
+	// Save to Firestore
 	const { data, error } = await supabase.from('insurance')
 		.insert({
 			account,
+			flightId,
 			fromEntityId,
 			insurancePrice,
 			flightPrice,
 			toEntityId,
 			departDate,
 			cabinClass,
-			currency,
+			currency: currency || "GHS",
 			adults,
-			market,
+			market: market || "GH",
 			active: true,
 			claimTime,
-			locale
-		}).select()
-	if (error) return Response.json(
-		data
-	)
-	return Response.json(data)
+			locale: locale || "en-GB"
+		}).select();
 
+	if (error) {
+		return Response.json(error.message);
+	}
+
+	return Response.json(data);
 }

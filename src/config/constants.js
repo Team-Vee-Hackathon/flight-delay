@@ -1,4 +1,12 @@
-export const API_KEY = "7a6e0b2cb2mshe9c0dd122b2f1f5p1ce9bcjsnce272dfb8a23";
+
+const API_KEYS = [
+	//"7a6e0b2cb2mshe9c0dd122b2f1f5p1ce9bcjsnce272dfb8a23",
+	// "db44fd27d5msh0acf633cf83a8d3p1546f6jsn70def9899fdf",
+	// "9ddf254eadmsh93831d37def51b1p177e1djsn5e88d39f342e",
+	"7cd8b87c71mshab107e04c2f20e1p1ea4e3jsn889ac90c35c2"];
+
+//Randomly select Key from api keys array not exceeding the length
+export const API_KEY = API_KEYS[Math.floor(Math.random() * API_KEYS.length)];
 
 export const CONTRACT_ADDRESS = "0x48DA2Ae3394DCDe6B299b295273d2E9fCF0386b2"
 
@@ -8,8 +16,10 @@ export const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdX
 
 export const SUPABASE_URL = "https://ootynxduhalrykjhkynh.supabase.co";
 
-export const testSchemaId = "b99dc316bdda4312bbf6df0b109696af";
-export const zkPassAppId = "db0cd5b3-685b-4e00-afaa-dc2391f26845";
+export const testSchemaId = "4f72c7b9cbd3412f8232dfc0448c3ebc";
+export const zkPassAppId = "75b88422-d28e-457a-8b7d-4a29414cea57";
+
+export const DEMO_PRIVATE_KEY = "87c014f6beb0eff945ee0dd84fd81f1dd3745299231e7f04bd12cfc2e51a14e5";
 
 export const CONFIGS = [
 	{

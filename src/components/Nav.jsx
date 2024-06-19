@@ -1,15 +1,12 @@
 "usse client"
-import { accountString } from "@/utils/functions";
+import { accountString, convertGhsToEth } from "@/utils/functions";
 import DialogTitle from '@mui/material/DialogTitle';
-import TransgateConnect from "@zkpass/transgate-js-sdk";
 // import toast, { Toaster } from "react-hot-toast";
 import { AppContext } from "@/context/AppContext";
 import Dialog from '@mui/material/Dialog';
 import React, { useContext, useState } from "react";
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button, CircularProgress, Stack } from "@mui/material";
 import Slide from '@mui/material/Slide';
-import LogoutIcon from '@mui/icons-material/Logout';
-import { testSchemaId, zkPassAppId } from "@/config/constants";
 import Link from "next/link";
 
 const Transition = React.forwardRef(function Transition(
@@ -19,9 +16,10 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Nav =() => {
-  const [openWalletOptions, setOpenWalletOptions] = useState(false);
-  const { account, connectWallet,generate } = useContext(AppContext);
+const Nav = () => {
+  const [openLoading, setOpenLoading] = useState(false);
+  const [txHash, setTxHash] = useState(null)
+  const { account, connectWallet, generate, payForInsurance } = useContext(AppContext);
 
   //move to dashboard
   const route = () => {
@@ -43,7 +41,7 @@ const Nav =() => {
           <p>Contacts</p>
           {/* align this button vertically equal with others */}
           {
-          account ? (
+            account ? (
               <Stack flexDirection="row" sx={{
                 gap: "10px"
 
@@ -79,10 +77,27 @@ const Nav =() => {
             }}
             className="bg-[#FFC700] hover:bg-[#ebc745] text-[#000000] px-4 py-2 rounded-[30px]">
             Test ZK
-          </button> 
-           <button
-            onClick={() => {
-              fetch("/api/hello").then((res) => res.json()).then(console.log)
+          </button>
+          <button
+            onClick={async () => {
+              try {
+                const fAmount = await convertGhsToEth(50)
+                if (confirm(`You are about pay ${fAmount.toFixed(5)} ETH`)) {
+                  setOpenLoading(true)
+                  payForInsurance(fAmount).then((r) => {
+                    setTxHash(r.transactionHash)
+                  }).catch((e) => {
+                    setOpenLoading(false)
+                    alert(e.message.toString().includes("insufficient funds for gas")
+                      ? "Insufficient balance to process this transaction. Please top up your wallet and try again."
+                      : e.message)
+                  });
+                }
+              } catch (error) {
+                setOpenLoading(!openLoading)
+                console.error(error)
+              }
+              //fetch("/api/hello").then((res) => res.json()).then(console.log)
             }}
           >
             Data click
@@ -91,35 +106,52 @@ const Nav =() => {
         {/* <Toaster /> */}
       </div>
 
-      {/* <Dialog
+      <Dialog
         TransitionComponent={Transition}
         keepMounted
+        open={openLoading}
         sx={{
           padding: "40px"
-        }}
-        onClose={() => setOpenWalletOptions(!openWalletOptions)} open={openWalletOptions}>
+        }}>
         <Box sx={{
           padding: "40px"
         }}>
-          <DialogTitle className="text-center font-bold text-2xl mb-4">Choose a Wallet</DialogTitle>
-          <Stack flexDirection="row" >
-            {connectors.map((connector) => {
-              return (
-                <Button
-                  key={connector.id}
-                  onClick={() => {
-                    connect({ connector })
-                    setOpenWalletOptions(!openWalletOptions)
-                  }}
-                  className="bg-[#FFC700] hover:bg-[#ebc745] text-[#000000] px-4 py-2 mx-2 rounded-[30px]"
-                >
-                  {connector.id}
-                </Button>
-              );
-            })}
+          <DialogTitle className="text-center font-bold text-2xl mb-4">{txHash ? "Transaction sent successfully" : "Processing transaction..."}</DialogTitle>
+          <Stack justifyContent={"center"} alignItems={"center"} className="w-full">
+            {
+              txHash ? (
+                <Stack justifyContent={"center"} alignItems={"center"} spacing={2} className="w-full">
+                  <a href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank">
+                    <p className="underline text-blue-700 font-bold text-md">View transaction on EtherScan</p>
+                  </a>
+                  <Button
+                    onClick={() => {
+
+                    }}
+                    className="bg-[#FFC700] hover:bg-[#ebc745] text-[#000000] px-4 py-2 rounded-[30px]" >
+                    Go to Dashboard
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setOpenLoading(false)
+                    }}
+                    color="error" variant="text" >
+                    Close
+                  </Button>
+                </Stack>
+              ) : (
+                <>
+                  <CircularProgress
+                    color="warning"
+                    size={50}
+                  />
+                </>
+              )
+            }
+
           </Stack>
         </Box>
-      </Dialog> */}
+      </Dialog>
 
     </>
   );

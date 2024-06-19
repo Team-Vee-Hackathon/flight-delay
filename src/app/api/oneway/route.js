@@ -14,8 +14,8 @@ export async function GET(request) {
 				"Content-Type": "application/json"
 			},
 			params: {
-				fromEntityId: query.get("fromEntityId"),
-				toEntityId: query.get("toEntityId"),
+				fromEntityId: query.get("fromEntityId") ||"ACC",
+				toEntityId: query.get("toEntityId")||"JFK",
 				departDate: query.get("departDate"),
 				cabinClass: query.get("cabinClass"), //[economy,business,first]
 				currency: query.get("currency") || "GHS",
