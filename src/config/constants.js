@@ -8,8 +8,8 @@ export const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdX
 
 export const SUPABASE_URL = "https://ootynxduhalrykjhkynh.supabase.co";
 
-export const testSchemaId = "298225815d364408ae6478dd594de1f6";
-export const zkPassAppId = "e35d4b59-adc1-4f9d-bf69-d1502346018b";
+export const testSchemaId = "b99dc316bdda4312bbf6df0b109696af";
+export const zkPassAppId = "db0cd5b3-685b-4e00-afaa-dc2391f26845";
 
 export const CONFIGS = [
 	{
