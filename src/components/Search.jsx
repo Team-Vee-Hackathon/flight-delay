@@ -94,7 +94,7 @@ const Search = () => {
         <div className="flex flex-col gap-[2rem]  ">
           <div>
             <p className="text-white  text-[20px] ml-[6rem] font-bold">
-              Lot's of flights. One Simple Search
+              Lot of flights. One Simple Search
             </p>
           </div>
           <div className="flex items-center ml-[6rem] gap-1">

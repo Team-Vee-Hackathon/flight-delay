@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 // import ZKPasPic from '../../public/zkpass.png'
 
-const page = () => {
+const Dashboard = () => {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const router = useRouter();
     const returnHome = () => {
@@ -231,4 +231,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Dashboard
