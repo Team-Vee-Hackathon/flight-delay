@@ -1,4 +1,4 @@
-export const accountString = (account: string) => {
+export const accountString = (account) => {
   return account.slice(0, 6) + "..." + account.slice(-4);
 };
 
@@ -17,7 +17,7 @@ export const accountString = (account: string) => {
 * @param {number} numTravelers - The number of people traveling.
 * @returns {number} - The calculated insurance payout.
 */
-export function calculateInsurancePayout(ticketPrice: number, cabinClass: string, numTravelers: number) {
+export function calculateInsurancePayout(ticketPrice, cabinClass, numTravelers) {
   if (ticketPrice <= 0 || numTravelers <= 0) {
     throw new Error('Ticket price and number of travelers must be greater than zero.');
   }

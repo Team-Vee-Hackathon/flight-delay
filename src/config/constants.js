@@ -1,5 +1,7 @@
 export const API_KEY = "7a6e0b2cb2mshe9c0dd122b2f1f5p1ce9bcjsnce272dfb8a23";
 
+export const CONTRACT_ADDRESS = "0x48DA2Ae3394DCDe6B299b295273d2E9fCF0386b2"
+
 export const API_URL = "https://sky-scanner3.p.rapidapi.com";
 
 export const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9vdHlueGR1aGFscnlramhreW5oIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcxODY5MzQzMSwiZXhwIjoyMDM0MjY5NDMxfQ.B69IxBspFmEHSV-TVfwaq_v9p5qw7okTyTgDkDQUxrk";

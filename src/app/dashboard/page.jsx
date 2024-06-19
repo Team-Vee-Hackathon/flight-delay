@@ -2,7 +2,6 @@
 import { Dashboard, LogoutOutlined } from '@mui/icons-material'
 import { Button, Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react'
 import Image from 'next/image'
-import { useDisconnect } from "@starknet-react/core";
 import { useRouter } from 'next/navigation'
 import React from 'react'
 // import ZKPasPic from '../../public/zkpass.png'
@@ -10,7 +9,6 @@ import React from 'react'
 const page = () => {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const router = useRouter();
-    const { disconnect } = useDisconnect();
     const returnHome = () => {
         router.push('/')
     }
@@ -30,7 +28,7 @@ const page = () => {
                 <div>
                     <Button onClick={() => {
                         if (confirm("Are you sure you want to disconnect your wallet?")) {
-                            disconnect()
+                            // disconnect()
                             returnHome()
                         }
                     }} className='text-white text-[12px]'>Disconnect Wallet</Button>
