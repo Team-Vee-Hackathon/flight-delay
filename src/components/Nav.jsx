@@ -73,20 +73,20 @@ const Nav =() => {
             )
 
           }
-          {/* <button
+          <button
             onClick={async () => {
               await generate();
             }}
             className="bg-[#FFC700] hover:bg-[#ebc745] text-[#000000] px-4 py-2 rounded-[30px]">
             Test ZK
-          </button> */}
-          {/* <button
+          </button> 
+           <button
             onClick={() => {
               fetch("/api/hello").then((res) => res.json()).then(console.log)
             }}
           >
             Data click
-          </button> */}
+          </button>
         </div>
         {/* <Toaster /> */}
       </div>

@@ -1,0 +1,36 @@
+{
+	"issuer": "Test",
+	"desc": "Just testing",
+	"website": "https://web3-flight-delay.vercel.app/",
+	"APIs": [
+	  {
+		"host": "web3-flight-delay.vercel.app",
+		"intercept": {
+		  "url": "api/hello",
+		  "method": "GET"
+		},
+		"assert": [
+		  {
+			"key": "amount",
+			"operation": ">=",
+			"value": "10"
+		  },
+		  {
+			"key": "active",
+			"operation": "=",
+			"value": "true"
+		  }
+		],
+		"nullifier": "id"
+	  }
+	],
+	"HRCondition": [
+	  "amount >= 10",
+	  "active = true"
+	],
+	"tips": {
+	  "message": "When you successfully log in, please click the 'Start' button to initiate the verification process."
+	},
+	"category": "Others",
+	"id": "0x298225815d364408ae6478dd594de1f6"
+  }
