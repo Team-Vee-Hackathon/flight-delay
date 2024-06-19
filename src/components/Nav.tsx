@@ -1,9 +1,9 @@
-"use client"
-import { AppContext } from "@/context/AppContext";
+"usse client"
 import { accountString } from "@/utils/functions";
 import DialogTitle from '@mui/material/DialogTitle';
 import TransgateConnect from "@zkpass/transgate-js-sdk";
 import toast, { Toaster } from "react-hot-toast";
+import { AppContext } from "@/context/AppContext";
 import Dialog from '@mui/material/Dialog';
 import React, { useContext, useState } from "react";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
@@ -12,8 +12,8 @@ import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { testSchemaId, zkPassAppId } from "@/config/constants";
-
 import Link from "next/link";
+import appStateContext from "@/context/AppContext";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -24,12 +24,18 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Nav = () => {
+const Nav =() => {
   const { connectors, connect } = useConnect();
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
   const [openWalletOptions, setOpenWalletOptions] = useState(false);
   const context = useContext(AppContext);
+
+  if (!context) {
+    throw new Error("AppContext must be used within an AppContextProvider");
+  }
+
+  const { account, connectWallet } = context;
 
   //move to dashboard
   const route = () => {
@@ -74,7 +80,7 @@ const Nav = () => {
           <p>Contacts</p>
           {/* align this button vertically equal with others */}
           {
-            address ? (
+          account? (
               <Stack flexDirection="row" sx={{
                 gap: "10px"
 
@@ -94,7 +100,8 @@ const Nav = () => {
             ) : (
               <button
                 onClick={() => {
-                  setOpenWalletOptions(!openWalletOptions)
+                  // setOpenWalletOptions(!openWalletOptions)
+                  connectWallet();
                 }}
                 className="bg-[#FFC700] hover:bg-[#ebc745] text-[#000000] px-4 py-2 rounded-[30px]">
                 Connect Wallet
