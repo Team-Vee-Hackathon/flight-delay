@@ -25,9 +25,8 @@ export async function GET(request) {
 		})
 		return Response.json(res.data);
 	} catch (error) {
-		console.error(error.response.data.message);
+		console.error(error);
 		return Response.json({
-			apiErrorMsg: error.response.data.message,
 			error: "An error occurred while searching flight round trip"
 		});
 	}

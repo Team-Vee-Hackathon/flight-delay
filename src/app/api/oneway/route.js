@@ -56,7 +56,6 @@ export async function GET(request) {
 	} catch (error) {
 		console.error(error);
 		return Response.json({
-			apiErrorMsg: error.response.data.message,
 			error: "An error occurred while searching flight one way"
 		});
 	}
