@@ -9,9 +9,7 @@ async function main() {
 //   console.log("Account balance:", balance.toString());
 
   const FlightDelayInsurance = await hre.ethers.getContractFactory("FlightDelayInsurance");
-  const insurance = await FlightDelayInsurance.deploy();
-
-  await insurance.deployed();
+  await FlightDelayInsurance.deploy();
 
   console.log("FlightDelayInsurance deployed to:", insurance.address);
 }
