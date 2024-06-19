@@ -1,6 +1,6 @@
 'use client'
 import { Dashboard, LogoutOutlined } from '@mui/icons-material'
-import { Button } from '@nextui-org/react'
+import { Button, Modal, ModalBody, ModalContent, useDisclosure } from '@nextui-org/react'
 import Image from 'next/image'
 import { useDisconnect } from "@starknet-react/core";
 import { useRouter } from 'next/navigation'
@@ -8,6 +8,7 @@ import React from 'react'
 // import ZKPasPic from '../../public/zkpass.png'
 
 const page = () => {
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const router = useRouter();
     const { disconnect } = useDisconnect();
     const returnHome = () => {
@@ -41,7 +42,7 @@ const page = () => {
                     <div className='h-[1px] bg-[#ccc] w-[70vw]'></div>
                 </div>
                 <div className='flex items-center gap-4' >
-                    <div className='h-[55vh] w-[40vw] rounded-[20px] cursor-pointer flex flex-col items-center gap-[10rem] border-[1px] bg-black status'>
+                    <Button onPress={onOpen} className='h-[50vh] w-[35vw] rounded-[20px] cursor-pointer flex flex-col items-center gap-[10rem] border-[1px] bg-black status'>
                         <div className='w-[12vw] flex items-center justify-center mt-4 rounded-[20px] bg-[#FFC700] '>
                             <p className='text-[12px]'>Flight status: Delayed</p>
                         </div>
@@ -72,9 +73,24 @@ const page = () => {
                                 <p className='text-[10px]'>17th June 2024</p>
                             </div>
                         </div>
-                    </div>
+                    </Button>
 
-                    <div className='h-[55vh] w-[30vw] rounded-[20px] cursor-pointer flex flex-col items-center gap-[10rem] border-[1px] bg-black status'>
+                    {/* Modal */}
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange} className='h-[70vh]'>
+                        <ModalContent>
+                            {(onClose)=>(
+                                <>
+                                    <ModalBody className='modal'>
+
+                                    </ModalBody>
+                                </>
+                            )}
+                        </ModalContent>
+
+                    </Modal>
+
+
+                    <div className='h-[50vh] w-[25vw] rounded-[20px] cursor-pointer flex flex-col items-center gap-[10rem] border-[1px] bg-black status'>
                         <div className='w-[12vw] flex items-center justify-center mt-4 rounded-[20px] bg-[#00EF0A] '>
                             <p className='text-[12px]'>Flight status: Scheduled</p>
                         </div>
