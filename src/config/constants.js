@@ -1,9 +1,10 @@
 
 const API_KEYS = [
 	//"7a6e0b2cb2mshe9c0dd122b2f1f5p1ce9bcjsnce272dfb8a23",
-	// "db44fd27d5msh0acf633cf83a8d3p1546f6jsn70def9899fdf",
+	 "db44fd27d5msh0acf633cf83a8d3p1546f6jsn70def9899fdf",
 	// "9ddf254eadmsh93831d37def51b1p177e1djsn5e88d39f342e",
-	"7cd8b87c71mshab107e04c2f20e1p1ea4e3jsn889ac90c35c2"];
+	//"7cd8b87c71mshab107e04c2f20e1p1ea4e3jsn889ac90c35c2"
+];
 
 //Randomly select Key from api keys array not exceeding the length
 export const API_KEY = API_KEYS[Math.floor(Math.random() * API_KEYS.length)];
