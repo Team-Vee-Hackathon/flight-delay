@@ -321,7 +321,7 @@ const Search = () => {
                           ...flight
                         })
                         if (!account) {
-                          alert("Connect your wallet")
+                          alert("Please connect your wallet")
                         } else {
                           try {
                             //TODO: Changed amount divide by 4 (For testing purpose)
