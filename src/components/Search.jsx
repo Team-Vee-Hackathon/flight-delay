@@ -316,6 +316,7 @@ const Search = () => {
                           departDate,
                           returnDate,
                           cabinClass,
+                          timeTaken: calculateTimeDifference(flight.arrival, flight.depature),
                           adults,
                           ...flight
                         })

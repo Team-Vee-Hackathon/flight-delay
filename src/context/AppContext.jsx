@@ -116,6 +116,7 @@ const AppContextProvider = ({ children }) => {
       departDate: selInsurance.departDate,
       cabinClass: selInsurance.cabinClass,
       adults: selInsurance.adults,
+      timeTaken: selInsurance.timeTaken
     })
     return receipt
   };

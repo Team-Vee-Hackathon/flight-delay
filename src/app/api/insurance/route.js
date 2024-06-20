@@ -12,7 +12,7 @@ export async function POST(request) {
 		market,
 		insurancePrice,
 		flightPrice,
-		locale
+		locale,timeTaken
 	} = requestBody;
 	// Time to claim
 	const claimTime = cabinClass === 'first' ? 24 : cabinClass === 'business' ? 12 : 6;
@@ -30,6 +30,7 @@ export async function POST(request) {
 			toEntityId,
 			departDate,
 			cabinClass,
+			timeTaken,
 			currency: currency || "GHS",
 			adults,
 			market: market || "GH",
