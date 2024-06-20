@@ -213,7 +213,7 @@ const Search = () => {
         <DialogTitle className="text-center font-bold text-xl">
           Flight Options
         </DialogTitle>
-        <div className="bg-white p-4">
+        <div className="bg-white flex flex-col items-center gap-4 p-4">
           <div className="flex items-center  gap-2">
             <p className="text-[12px] font-bold ">Cabin Class</p>
             <select
@@ -223,7 +223,7 @@ const Search = () => {
               onChange={(e) => {
                 setCabinClass(e.target.value);
               }}
-              className="text-[10px] outline-none"
+              className="text-[12px] border-[1px] p-2 outline-none"
             >
               <option selected value="economy">
                 Economy
@@ -232,14 +232,14 @@ const Search = () => {
               <option value="first">First Class</option>
             </select>
           </div>
-          <div>
-            <div className="flex ">
-              <p>Adults</p>
+          <div className="flex flex-col items-center">
+            <div className="flex items-center gap-10">
+              <p className="text-[12px] font-bold">Adults</p>
               <input
                 type="number"
                 value={adults}
                 onChange={(e) => setAdults(parseInt(e.target.value))}
-                className="outline-none"
+                className="outline-none text-[12px] border-[1px] p-2 w-[5vw]"
               />
             </div>
             <div className="flex items-center gap-2">
@@ -247,7 +247,7 @@ const Search = () => {
                 onClick={() => {
                   setShowFlightOptions(!showFlightOptions);
                 }}
-                className="bg-[#FFC700] w-full mt-4 hover:bg-[#ebc745] text-[#000000] px-4 py-2 rounded-[30px]">
+                className="bg-[#FFC700] w-[15vw] text-[12px] font-bold mt-4 hover:bg-[#ebc745] text-[#000000] px-4 py-2 rounded-[30px]">
                 Done
               </Button>
               <div></div>
