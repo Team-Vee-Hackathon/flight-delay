@@ -13,7 +13,7 @@ const Login = () => {
             <div className='login-photo h-[100vh] w-[65vw] '></div>
             <div className='bg-black flex gap-6 items-center flex-col h-[100vh] w-[40vw]'>
                 <div className='flex flex-col items-center mt-24 gap-6 justify-center'>
-                    <img src="/aya.png" alt="aya logo" />
+                    <img src="/newlogo.png" alt="aya logo" />
                     <p className='text-white text-[10px]'>Connect your wallet continue to flight delay insurance claim system</p>
                 </div>
                 <div className='flex flex-col items-center gap-4'>

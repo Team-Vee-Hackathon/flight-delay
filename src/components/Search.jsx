@@ -126,7 +126,7 @@ const Search = () => {
                 setOpenAirportSearch(!openAirportSearch)
               }}
               className="flex flex-col bg-white cursor-pointer p-4 w-[15vw] gap-4">
-              <p className="text-[12px] ml-2 font-bold">Too</p>
+              <p className="text-[12px] ml-2 font-bold">To</p>
               <p className="text-[12px]">{dest ? dest.suggestionTitle : "Where are you going"}</p>
               {/* <input
                 type="text"
@@ -391,14 +391,14 @@ const Search = () => {
 
             }}
             renderInput={(params) => (
-              <Stack flexDirection="row" spacing={2} alignItems="center">
+              <Stack flexDirection="row" spacing={2}  alignItems="center">
                 <TextField
                   {...params}
                   placeholder="Country, City, or Airport"
                   onChange={(e) => {
                     setSearchText(e.target.value)
                   }}
-                  className="outline-none border-none text-[12px]"
+                  
                 />
                 <IconButton
                   sx={{ backgroundColor: "#FFC700" }}

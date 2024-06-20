@@ -57,7 +57,7 @@ const DashboardPage = () => {
     <div className="flex  min-h-screen">
       <div className="bg-black h-[100vh] flex flex-col items-center  gap-[20rem] p-8 w-[50w] ">
         <div className="flex flex-col mt-4 gap-3 items-center">
-          <img className="h-[5vh]" src="/aya.png" alt="aya logo" />
+          <img className="h-[3vh]" src="/newlogo.png" alt="aya logo" />
           <div className="flex items-center gap-1 justify-center">
             <p className="text-[10px] text-[#FFFF]">Powered by</p>
             <Image

@@ -33,7 +33,7 @@ const Nav = () => {
     <>
       <div className="flex items-center justify-center m-[2rem] gap-[30rem]">
         <div>
-          <img src="/aya.png" alt="aya logo" />
+          <img src="/newlogo.png" alt="aya logo" />
         </div>
         <div className="text-[#FFFFFF] text-[15px] items-center flex gap-[50px] cursor-pointer ">
           <p>Services</p>
