@@ -117,8 +117,8 @@ const Search = () => {
               {/* <p className='font-bold text-[12px]'>Accra (ACC)</p> */}
             </div>
             <div className="bg-white flex items-center justify-center cursor-pointer border-[3.5px] border-black h-[40px] w-[40px] rounded-full absolute ml-[10.5vw] ">
-              <ArrowForwardIos className="text-[12px]" />
-              <ArrowBackIos className="text-[12px]" />
+              <ArrowForwardIos className="text-[10px]" />
+              <ArrowBackIos className="text-[10px] " />
             </div>
             <div
               onClick={() => {
@@ -126,7 +126,7 @@ const Search = () => {
                 setOpenAirportSearch(!openAirportSearch)
               }}
               className="flex flex-col bg-white cursor-pointer p-4 w-[15vw] gap-4">
-              <p className="text-[12px] ml-2 font-bold">To</p>
+              <p className="text-[12px] ml-2 font-bold">Too</p>
               <p className="text-[12px]">{dest ? dest.suggestionTitle : "Where are you going"}</p>
               {/* <input
                 type="text"
@@ -210,11 +210,11 @@ const Search = () => {
         }}
         open={showFlightOptions}
       >
-        <DialogTitle className="text-center font-bold text-2xl">
+        <DialogTitle className="text-center font-bold text-xl">
           Flight Options
         </DialogTitle>
         <div className="bg-white p-4">
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex items-center  gap-2">
             <p className="text-[12px] font-bold ">Cabin Class</p>
             <select
               name=""
@@ -223,6 +223,7 @@ const Search = () => {
               onChange={(e) => {
                 setCabinClass(e.target.value);
               }}
+              className="text-[10px] outline-none"
             >
               <option selected value="economy">
                 Economy
@@ -232,12 +233,13 @@ const Search = () => {
             </select>
           </div>
           <div>
-            <div>
+            <div className="flex ">
               <p>Adults</p>
               <input
                 type="number"
                 value={adults}
                 onChange={(e) => setAdults(parseInt(e.target.value))}
+                className="outline-none"
               />
             </div>
             <div className="flex items-center gap-2">
@@ -277,7 +279,7 @@ const Search = () => {
             </p>
           </DialogTitle>
           <>
-            <div className="flex flex-col gap-6">
+            <div className="flex p-4 flex-col gap-6">
               {flights.length === 0 ? <p className="text-center text-2xl font-bold">No flights available</p> : flights.map((flight, index) => (
                 <div key={index} className="flex gap-4 items-center bg-white w-[35vw] border-[1px] border-gray-400  rounded-[20px] p-4 gap-2">
                   <div className="flex justify-center flex-col items-center gap-1">
